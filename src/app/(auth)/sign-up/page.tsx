@@ -23,8 +23,8 @@ const {
     resolver: zodResolver(AuthCredentialsValidator),
 })
 
-const { data } = trpc.anyApiRoute.useQuery()
-console.log(data)
+
+
 
 const onSubmit = ({ 
     email, 

@@ -1,5 +1,5 @@
 import express from 'express'
-import { getPayloadClient } from '@/get-payloads'
+import { getPayloadClient } from './get-payload';
 import { nextApp, nextHandler} from "./next-utils"
 import * as trpcExpress from '@trpc/server/adapters/express'
 import { appRouter} from "./trpc"
@@ -39,11 +39,14 @@ const start = async () => {
     },
   })
 
-  app.post(
-    '/api/webhooks/stripe',
-    webhookMiddleware,
-    stripeWebhookHandler
-  )
+  app.post('/api/webhooks/stripe', async (req, res) => {
+    try {
+      await stripeWebhookHandler(req, res);  // Make sure this returns void or nothing
+      res.status(200).send('Webhook processed');
+    } catch (error) {
+      res.status(500).send('Error processing webhook');
+    }
+  });
 
   const payload = await getPayloadClient({
     initOptions: {
@@ -70,8 +73,10 @@ const start = async () => {
   }
 
   const cartRouter = express.Router()
-
-  cartRouter.use(payload.authenticate)
+  cartRouter.use((req, res, next) => {
+    payload.authenticate(req, res, next as any); // Casting next to any for compatibility
+  });
+  
 
   cartRouter.get('/', (req, res) => {
     const request = req as PayloadRequest
