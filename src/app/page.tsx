@@ -1,9 +1,9 @@
-import Page from "./(auth)/sign-up/page";
-
+import Disclaimer from "./components/Disclaimer";
 export default function Home() {
   return (
     <div>
-      <Page></Page>
+      <Disclaimer />
+      
     </div>
   );
 }

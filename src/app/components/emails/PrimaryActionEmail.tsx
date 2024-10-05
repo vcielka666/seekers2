@@ -37,13 +37,12 @@ import {
               src={`${process.env.NEXT_PUBLIC_SERVER_URL}/hippo-newsletter-sign-up.png`}
               width='150'
               height='150'
-              alt='SeekersMarketplace'
+              alt='Seekers'
               style={logo}
             />
             <Text style={paragraph}>Hi there,</Text>
             <Text style={paragraph}>
-              Welcome to Seekers Marketplace, the marketplace for
-              high quality exchangeable tokens. Use the button below
+              Welcome to Seekers. Use the button below
               to {actionLabel}.
             </Text>
             <Section style={btnContainer}>

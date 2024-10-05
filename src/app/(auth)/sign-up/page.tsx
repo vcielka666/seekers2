@@ -2,8 +2,8 @@
 import { Icons } from "@/app/components/Icons"
 import { Button, buttonVariants } from "@/app/components/ui/button"
 import { trpc } from "@/trpc/client"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Input } from "@/app/components/ui/input"
+import { Label } from "@/app/components/ui/label"
 import { cn } from "@/lib/utils"
 import { AuthCredentialsValidator, TAuthCredentialsValidator } from "@/lib/validators/account-credentials-validator"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -24,18 +24,21 @@ const {
 })
 
 
+const {mutate, isLoading} = trpc.auth.createPayloadUser.useMutation({
 
+})
 
 const onSubmit = ({ 
     email, 
     password, 
 }: TAuthCredentialsValidator) => {
-//send data to the server
+
+    mutate({ email, password })
     
 }
 
     return(<>
-        <div className="container relative flex pt-20 flex-col items-center justify-center lg:px-0">
+        <div className="container relative flex pt-20 px-[10px] flex-col items-center justify-center lg:px-0">
             <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
                 <div className="flex flex-col items-center space-y-2 text-center">
                     <Icons.logo 
@@ -73,6 +76,7 @@ const onSubmit = ({
                                 <Label htmlFor="password">Password</Label>
                                 <Input 
                                 {...register("password")}
+                                    type="password"
                                     className={cn({                                     
                                         "focus-visible:ring-red-500": 
                                         errors.password,
